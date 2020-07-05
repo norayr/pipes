@@ -2,4 +2,4 @@
 
 
 all:
-			cd ../build && voc -s ../lists/src/pipes.Mod
+			cd ../build && voc -s ../pipes/src/pipes.Mod
