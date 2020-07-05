@@ -1,0 +1,5 @@
+
+
+
+all:
+			cd ../build && voc -s ../lists/src/pipes.Mod
