@@ -20,6 +20,14 @@ MODULE pipes;
 
 PROCEDURE -Astdio '#include <stdio.h>';
 
+PROCEDURE NewText*(): Text;
+VAR
+  t: Text;
+BEGIN
+  NEW(t);
+  NEW(t.text);
+  RETURN t;
+END NewText;
 
 PROCEDURE OberonStringtoPchar( VAR s : ARRAY OF CHAR) : Pchar;
 VAR l, i : LONGINT;
@@ -100,7 +108,7 @@ BEGIN
   i := 0;
   REPEAT
     Read(f, ch);
-    IF (ch = Ascii.cr) OR (ch = Ascii.lf) OR (i = LEN(s) - 1) OR f.eof THEN eol := TRUE END;
+    IF (i >= LEN(s) - 1) OR (ch = Ascii.cr) OR (ch = Ascii.lf) OR f.eof THEN eol := TRUE END;
     IF eol THEN
 	    s[i] := Ascii.nul
 	  ELSE
