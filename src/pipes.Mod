@@ -8,7 +8,11 @@ MODULE pipes;
   TYPE 
   File = SYSTEM.ADDRESS;
 	Files = ARRAY 64 OF File; (* should be more than enough to hold FILE struct *)
-	PtrFile = POINTER TO Files;
+	PtrFile = POINTER [1] TO Files;
+	(*PtrFile = POINTER TO PtrFileDesc;
+	PtrFileDesc = RECORD
+          f : Files;
+	END;*)
 	Pchar = POINTER TO ARRAY OF CHAR;
    
   Text* = POINTER TO TextDesc;
@@ -17,6 +21,7 @@ MODULE pipes;
      text- : PtrFile;
   	 eof-  : BOOLEAN;
    END;
+
 
 PROCEDURE -Astdio '#include <stdio.h>';
 
@@ -57,7 +62,7 @@ BEGIN
   END
 END dumpChars;
 
-PROCEDURE -popen (VAR command, modes : ARRAY OF CHAR) : PtrFile "popen((char*)command, (char*)modes)";
+PROCEDURE -popen (VAR command, modes : ARRAY OF CHAR) : PtrFile "(pipes_PtrFile)popen((char*)command, (char*)modes)";
 
 PROCEDURE Popen*(VAR command: ARRAY OF CHAR; mode: CHAR): Text;
 VAR
@@ -79,7 +84,7 @@ BEGIN
 END Popen;
 
 PROCEDURE -pclose* (stream : PtrFile) : LONGINT
-  "pclose(stream)";
+  "(LONGINT)pclose((FILE*)stream)";
 
 PROCEDURE Pclose* (t: Text): LONGINT;
 VAR
@@ -89,7 +94,7 @@ BEGIN
   RETURN result
 END Pclose;
 
-PROCEDURE -getc(f: PtrFile): LONGINT "getc(f)";
+PROCEDURE -getc(f: PtrFile): LONGINT "(LONGINT)getc((FILE*)f)";
 
 PROCEDURE Read*(VAR(*CONST*) f  : Text; VAR ch : CHAR);
 VAR
