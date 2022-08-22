@@ -7,7 +7,7 @@ MODULE pipes;
 
   TYPE 
   File = SYSTEM.ADDRESS;
-	Files = ARRAY 64 OF File; (* should be enough to hold FILE struct *)
+	Files = ARRAY 64 OF File; (* should be more than enough to hold FILE struct *)
 	PtrFile = POINTER TO Files;
 	Pchar = POINTER TO ARRAY OF CHAR;
    
@@ -65,6 +65,7 @@ VAR
 	md  : ARRAY 2 OF CHAR;
 BEGIN
   (*NEW(md, 2);
+  t := NewText;
   md^[0] := mode; md^[1] := Ascii.nul;
   cmd := OberonStringtoPchar(command);*)
   strutils.Assign(command, cmd);
@@ -74,13 +75,15 @@ BEGIN
   t.eof := FALSE;
 END Popen;
 
-(*PROCEDURE pclose* (stream : LONGINT) : LONGINT "close(fd)";*)
+PROCEDURE -pclose* (stream : PtrFile) : LONGINT
+  "pclose(stream)";
 
-PROCEDURE Pclose* (stream: Platform.FileHandle): LONGINT;
+PROCEDURE Pclose* (t: Text): LONGINT;
 VAR
   result: LONGINT;
 BEGIN
-  result := Platform.Close(stream)
+  result := pclose(t.text);
+  RETURN result
 END Pclose;
 
 PROCEDURE -getc(f: PtrFile): LONGINT "getc(f)";
@@ -94,6 +97,7 @@ BEGIN
    IF l < 0 THEN
      f.eof := TRUE
    ELSE
+     f.eof := FALSE;
      ch := CHR((SHORT(SHORT(l))))
    END
 END Read;
