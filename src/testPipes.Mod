@@ -11,7 +11,7 @@ VAR
 BEGIN
   COPY("ls -al", cmd);
   text := pipes.NewText();
-  pipes.Popen(text, cmd, 'r');
+  text := pipes.Popen(cmd, 'r');
   WHILE ~ text.eof DO
   (*WHILE ~pipes.isEOF(text) DO*)
     pipes.Read(text, ch);

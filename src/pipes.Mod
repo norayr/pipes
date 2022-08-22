@@ -63,11 +63,13 @@ PROCEDURE Popen*(VAR command: ARRAY OF CHAR; mode: CHAR): Text;
 VAR
 	cmd : ARRAY 256 OF CHAR;
 	md  : ARRAY 2 OF CHAR;
+  t   : Text;
 BEGIN
   (*NEW(md, 2);
-  t := NewText();
   md^[0] := mode; md^[1] := Ascii.nul;
   cmd := OberonStringtoPchar(command);*)
+
+  t := NewText();
   strutils.Assign(command, cmd);
   strutils.Assign("r", md);
   (*dumpChars(md); dumpChars(cmd);*)
