@@ -11,13 +11,13 @@ all: ${DEPS}
 		mkdir build;           \
 	fi
 
-	@for i in $?; do                           \
-		cp -r   ${ROOTDIR}/build                 \
-		${ROOTDIR}/deps/$${i#*/}/build;          \
-		make -C ${ROOTDIR}/deps/$${i#*/};        \
-		cp -r   ${ROOTDIR}/deps/$${i#*/}/build/* \
-		${ROOTDIR}/build/;                       \
-	done
+#	@for i in $?; do                           \
+#		cp -r   ${ROOTDIR}/build                 \
+#		${ROOTDIR}/deps/$${i#*/}/build;          \
+#		make -C ${ROOTDIR}/deps/$${i#*/};        \
+#		cp -r   ${ROOTDIR}/deps/$${i#*/}/build/* \
+#		${ROOTDIR}/build/;                       \
+#	done
 
 	@cd build; voc -s ${ROOTDIR}/../src/pipes.Mod \
 			${ROOTDIR}/../src/testPipes.Mod -M
