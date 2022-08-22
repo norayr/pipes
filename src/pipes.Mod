@@ -59,13 +59,13 @@ END dumpChars;
 
 PROCEDURE -popen (VAR command, modes : ARRAY OF CHAR) : PtrFile "popen((char*)command, (char*)modes)";
 
-PROCEDURE Popen*(VAR t: Text; VAR command: ARRAY OF CHAR; mode: CHAR);
+PROCEDURE Popen*(VAR command: ARRAY OF CHAR; mode: CHAR): Text;
 VAR
 	cmd : ARRAY 256 OF CHAR;
 	md  : ARRAY 2 OF CHAR;
 BEGIN
   (*NEW(md, 2);
-  t := NewText;
+  t := NewText();
   md^[0] := mode; md^[1] := Ascii.nul;
   cmd := OberonStringtoPchar(command);*)
   strutils.Assign(command, cmd);
@@ -73,6 +73,7 @@ BEGIN
   (*dumpChars(md); dumpChars(cmd);*)
   t.text := popen(cmd, md);
   t.eof := FALSE;
+  RETURN t
 END Popen;
 
 PROCEDURE -pclose* (stream : PtrFile) : LONGINT
