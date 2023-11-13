@@ -5,21 +5,21 @@ MODULE pipes;
   CONST
     EOF* = -1;
 
-  TYPE 
+  TYPE
   File = SYSTEM.ADDRESS;
-	Files = ARRAY 64 OF File; (* should be more than enough to hold FILE struct *)
-	PtrFile = POINTER [1] TO Files;
-	(*PtrFile = POINTER TO PtrFileDesc;
-	PtrFileDesc = RECORD
+  Files = ARRAY 64 OF File; (* should be more than enough to hold FILE struct *)
+  PtrFile = POINTER [1] TO Files;
+  (*PtrFile = POINTER TO PtrFileDesc;
+  PtrFileDesc = RECORD
           f : Files;
-	END;*)
-	Pchar = POINTER TO ARRAY OF CHAR;
-   
+  END;*)
+  Pchar = POINTER TO ARRAY OF CHAR;
+
   Text* = POINTER TO TextDesc;
 
   TextDesc* = RECORD;
      text- : PtrFile;
-  	 eof-  : BOOLEAN;
+     eof-  : BOOLEAN;
    END;
 
 
@@ -48,7 +48,7 @@ BEGIN
      INC(i)
    UNTIL i = l-2;
    INC(i);
-   p[i] := Ascii.nul; 
+   p[i] := Ascii.nul;
    RETURN p;
 END OberonStringtoPchar;
 
@@ -66,8 +66,8 @@ PROCEDURE -popen (VAR command, modes : ARRAY OF CHAR) : PtrFile "(pipes_PtrFile)
 
 PROCEDURE Popen*(VAR command: ARRAY OF CHAR; mode: CHAR): Text;
 VAR
-	cmd : ARRAY 256 OF CHAR;
-	md  : ARRAY 2 OF CHAR;
+  cmd : ARRAY 256 OF CHAR;
+  md  : ARRAY 2 OF CHAR;
   t   : Text;
 BEGIN
   (*NEW(md, 2);
@@ -113,20 +113,20 @@ END Read;
 PROCEDURE ReadLine*(VAR(*CONST*) f : Text; VAR s : ARRAY OF CHAR);
 VAR
   i: INTEGER;
-	ch: CHAR;
-	eol: BOOLEAN;
+  ch: CHAR;
+  eol: BOOLEAN;
 BEGIN
   eol := FALSE;
   i := 0;
   REPEAT
     Read(f, ch);
-    IF (i >= LEN(s) - 1) OR (ch = Ascii.cr) OR (ch = Ascii.lf) OR f.eof THEN eol := TRUE END;
+    IF (f.eof) OR (i >= LEN(s) - 1) OR (ch = Ascii.cr) OR (ch = Ascii.lf) OR f.eof THEN eol := TRUE END;
     IF eol THEN
-	    s[i] := Ascii.nul
-	  ELSE
-	    s[i] := ch
-	  END;
-	  INC(i)
+      s[i] := Ascii.nul
+    ELSE
+      s[i] := ch
+    END;
+    INC(i)
   UNTIL eol;
 END ReadLine;
 
