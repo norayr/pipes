@@ -1,6 +1,6 @@
 .POSIX:
 
-DEPS     = norayr/lists
+DEPS     = norayr/strutils
 
 GITHUB   = https://github.com/
 
@@ -12,7 +12,7 @@ all: ${DEPS}
 	fi
 
 	@cd build; voc -s ${ROOTDIR}/../src/pipes.Mod \
-			${ROOTDIR}/../src/testPipes.Mod -M
+			${ROOTDIR}/../test/testPipes.Mod -M
 
 ${DEPS}:
 	@for i in $@; do                              \

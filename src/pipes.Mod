@@ -1,6 +1,6 @@
 MODULE pipes;
 
-  IMPORT SYSTEM, Platform, Strings := oocStrings, Ascii := oocAscii, strutils, Out;
+  IMPORT SYSTEM, Platform, Strings := oocStrings, Ascii := oocAscii, strUtils, Out;
 
   CONST
     EOF* = -1;
@@ -75,8 +75,8 @@ BEGIN
   cmd := OberonStringtoPchar(command);*)
 
   t := NewText();
-  strutils.Assign(command, cmd);
-  strutils.Assign("r", md);
+  strUtils.Assign(command, cmd);
+  strUtils.Assign("r", md);
   (*dumpChars(md); dumpChars(cmd);*)
   t.text := popen(cmd, md);
   t.eof := FALSE;
